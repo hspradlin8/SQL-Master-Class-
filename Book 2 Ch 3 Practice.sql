@@ -1,14 +1,12 @@
 -- Joining Data
 -- 1.Get a list of the sales that was made for each sales type.
 SELECT
-    s.price,
-    s.deposit,
-    s.purchase_date,
+    s. *,
     st.name AS Sales_type
 FROM
     sales s
-    RIGHT JOIN Salestypes st
-    ON s.sales_type_id = st.sales_type_id;
+    INNER JOIN Salestypes st
+    ON st.sales_type_id = s.sales_type_id;
 -- 2.Get a list of sales with the VIN of the vehicle, the first name and last name of the customer, 
 -- first name and last name of the employee who made the sale and the name, city and state of the dealership.
 SELECT s.sale_id,
@@ -29,12 +27,10 @@ FROM sales s
 
 
 -- 3.Get a list of all the dealerships and the employees, if any, working at each one.
-SELECT de.dealership_employee_id,
-    d.dealership_id,
-    e.employee_id
-FROM dealershipemployees de
-    JOIN dealerships d ON de.dealership_id = d.dealership_id
-    JOIN employees e ON de.employee_id = e.employee_id;
+SELECT d.business_name, CONCAT(e.first_name, '', e.last_name) AS employee_name
+FROM dealerships d
+    LEFT JOIN dealershipemployees de ON d.dealership_id = de.dealership_id
+    LEFT JOIN employees e ON e.employee_id = de.employee_id;
 -- 4.Get a list of vehicles with the names of the body type, make, model and color.
 SELECT
     v.vehicle_id,
