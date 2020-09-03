@@ -13,9 +13,9 @@ GROUP BY business_name;
 
 SELECT vm.name, COUNT( s.sale_id) AS leaseCount
 FROM sales s
-    LEFT JOIN vehicles v ON v.vehicle_id = s.vehicle_id
-    LEFT JOIN vehicletypes vt ON vt.vehicle_type_id = v.vehicle_type_id
-    LEFT JOIN vehiclemodel vm ON vm.vehicle_model_id = vt.vehicle_model
+    INNER JOIN vehicles v ON s.vehicle_id = v.vehicle_id
+   INNER JOIN vehicletypes vt ON v.vehicle_type_id = vt.vehicle_type_id
+    INNER JOIN vehiclemodel vm ON vt.vehicle_model_id = vm.vehicle_model
 WHERE s.sales_type_id = 2
 GROUP BY vm.name
 ORDER BY leaseCount DESC
@@ -25,10 +25,11 @@ LIMIT 1;
 SELECT 
 COUNT(s.sale_id) AS SalesCount, vm.name
 FROM sales s
-LEFT JOIN vehicles v ON s.vehicle_id = v.vehicle_id
-LEFT JOIN vehicletypes vt ON v.vehicle_type_id = vt.vehicle_type_id
-LEFT JOIN vehiclemake vm ON vt.vehicle_make = vm.vehicle_make_id
-WHERE s.sales_type_id = 1
+INNER JOIN salestypes st ON st.sales_type_id = s.sales_type_id
+INNER JOIN vehicles v ON s.vehicle_id = v.vehicle_id
+INNER JOIN vehicletypes vt ON v.vehicle_type_id = vt.vehicle_type_id
+INNER JOIN vehiclemake vm ON vt.vehicle_make = vm.vehicle_make_id
+-- WHERE s.sales_type_id = 1
 GROUP BY vm.name
 ORDER BY SalesCount DESC
 LIMIT 1;
