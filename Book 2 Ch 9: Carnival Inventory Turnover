@@ -13,8 +13,7 @@ LIMIT 1;
 SELECT 
     vt.vehicle_type_id, 
     vm.name, 
-    vm
-.vehicle_model_id
+    v.vehicle_model_id
 FROM vehicles v
     LEFT JOIN vehicletypes vt ON vt.vehicle_type_id = v.vehicle_type_id
     LEFT JOIN vehiclemodels vm ON vm.vehicle_model_id = vt.model_id
@@ -40,8 +39,7 @@ SELECT
 	vm.name, 
 	d.business_name
 FROM sales s  
- INNER JOIN vehicletypes vt ON vt.vehicle_type_id
-= s.vehicle_id
+ INNER JOIN vehicletypes vt ON vt.vehicle_type_id = s.vehicle_id
  INNER JOIN vehiclemodels vm ON vm.vehicle_model_id = vt.model_id
  INNER JOIN dealerships d ON d.dealership_id = s.dealership_id
 ORDER BY vm.vehicle_model_id DESC
