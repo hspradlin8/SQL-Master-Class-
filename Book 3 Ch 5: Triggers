@@ -8,14 +8,12 @@ AS $$
 BEGIN
   --Trigger function logic--
   UPDATE sales
-    SET pickup_date = NEW.purchase_date + integer
-  '3'
+    SET pickup_date = NEW.purchase_date + integer '3'
     WHERE sales.sales_id = new.
 
 
 
-  CREATE OR REPLACE FUNCTION set_purchase_date
-  ()
+  CREATE OR REPLACE FUNCTION set_purchase_date()
 	RETURNS TRIGGER
 	LANGUAGE PLPGSQL
 AS $$
@@ -27,15 +25,9 @@ AS $$
   END;
   $$
   CREATE TRIGGER new_sale_added
-	AFTER
-  INSERT
-	ON
-  sales
-  FOR
-  EACH
-  ROW
-  EXECUTE PROCEDURE set_purchase_date
-  ();
+	AFTER INSERT ON sales
+  FOR EACH ROW
+  EXECUTE PROCEDURE set_purchase_date();
 
   INSERT INTO sales
     (sales_type_id, vehicle_id, employee_id, dealership_id, price, invoice_number)
@@ -52,8 +44,7 @@ AS $$
   -- before the purchase date, set the pickup date to 7 days after the purchase date.
   --  If the pickup date is less than 7 days out from the purchase date, day 4 additional 
   --  days to the pickup date.
-  CREATE OR REPLACE FUNCTION conditionally_set_pickup_date
-  () 
+  CREATE OR REPLACE FUNCTION conditionally_set_pickup_date() 
   RETURNS TRIGGER 
   LANGUAGE PlPGSQL
 AS $$
@@ -62,8 +53,7 @@ AS $$
 	  NEW.pickup_date := NEW.pickup_date + integer '4';
   ELSIF NEW.pickup_date <= NEW.purchase_date THEN
 	  NEW.pickup_date := NEW.purchase_date + integer '7';
-END
-IF;
+END IF;
   
   RETURN NEW;
 END;
